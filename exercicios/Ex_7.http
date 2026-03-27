@@ -1,0 +1,42 @@
+POST http://localhost:2525/imposters/4545/stubs
+Content-Type: application/json
+
+{
+  "stub": {
+    "predicates": [
+      {
+        "and": [
+          { "equals": { "method": "POST", "path": "/api/users" } },
+          { "equals": { "headers": { "Content-Type": "application/json" } } }
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "is": {
+          "statusCode": 201,
+          "headers": { 
+            "Content-Type": "application/json",
+            "Location": "/api/users/123" 
+          },
+          "body": { 
+            "id": 123, 
+            "status": "created",
+            "message": "Utilizador criado com sucesso!"
+          }
+        }
+      }
+    ]
+  }
+}
+
+### Teste de Sucesso 
+POST http://localhost:4545/api/users
+Content-Type: application/json
+
+{
+    "username": "Pedro",
+    "email": "pedro@atec.pt",
+    "idade": 20
+}
+

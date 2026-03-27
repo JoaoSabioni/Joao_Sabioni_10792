@@ -1,0 +1,8 @@
+##Teste Positivo
+GET http://localhost:4545/api/cars?brand=Toyota
+
+##Teste sem pesquisa
+GET http://localhost:4545/api/cars
+
+##Teste Negativo
+GET http://localhost:4545/api/cars?brand=Audi

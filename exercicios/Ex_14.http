@@ -1,0 +1,34 @@
+POST http://localhost:2525/imposters/4545/stubs
+Content-Type: application/json
+
+{
+  "stub": {
+    "predicates": [
+      {
+        "and": [
+          { "equals": { "method": "POST" } },
+          { "not": { "equals": { "headers": { "Content-Type": "application/json" } } } }
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "is": {
+          "statusCode": 415,
+          "headers": { "Content-Type": "application/json" },
+          "body": { 
+            "error": "unsupported_media_type", 
+            "message": "O header 'Content-Type: application/json' é obrigatório para todos os pedidos POST." 
+          }
+        }
+      }
+    ]
+  }
+}
+
+### Teste Exercício 14 (Deve dar 415 Unsupported Media Type)
+POST http://localhost:4545/api/any-endpoint
+
+{
+    "data": "teste"
+}

@@ -1,0 +1,72 @@
+### EXERCÍCIO 12 - Autenticação Sucesso (user1/pass1)
+POST http://localhost:2525/imposters/4545/stubs
+Content-Type: application/json
+
+{
+  "stub": {
+    "predicates": [
+      {
+        "and": [
+          { "equals": { "method": "POST", "path": "/api/auth" } },
+          { "deepEquals": { "body": { "username": "user1", "password": "pass1" } } }
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "is": {
+          "statusCode": 200,
+          "headers": { "Content-Type": "application/json" },
+          "body": { 
+            "token": "validtoken", 
+            "expires_in": 3600 
+          }
+        }
+      }
+    ]
+  }
+}
+
+###
+
+### EXERCÍCIO 12 - Autenticação Falha (Qualquer outra credencial)
+POST http://localhost:2525/imposters/4545/stubs
+Content-Type: application/json
+
+{
+  "stub": {
+    "predicates": [
+      { "equals": { "method": "POST", "path": "/api/auth" } }
+    ],
+    "responses": [
+      {
+        "is": {
+          "statusCode": 401,
+          "headers": { "Content-Type": "application/json" },
+          "body": { "error": "invalid_credentials" }
+        }
+      }
+    ]
+  }
+}
+
+
+### Teste 12 - Sucesso (Deve dar 200 OK)
+POST http://localhost:4545/api/auth
+Content-Type: application/json
+
+{
+    "username": "user1",
+    "password": "pass1"
+}
+
+###
+
+### Teste 12 - Falha (Deve dar 401 Unauthorized)
+POST http://localhost:4545/api/auth
+Content-Type: application/json
+
+{
+    "username": "errado",
+    "password": "123"
+}

@@ -1,0 +1,12 @@
+### Teste 1: Obter uma lista de posts (GET)
+GET http://localhost:2525/
+
+### Teste 2: Criar um novo post (POST)
+POST https://jsonplaceholder.typicode.com/posts
+Content-Type: application/json
+
+{
+    "title": "Teste ATEC",
+    "body": "A configurar o proxy no Git e VS Code",
+    "userId": 1
+}

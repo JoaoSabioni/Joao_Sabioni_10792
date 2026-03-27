@@ -1,0 +1,63 @@
+
+POST http://localhost:2525/imposters/4545/stubs
+Content-Type: application/json
+
+{
+  "stub": {
+    "predicates": [
+      {
+        "and": [
+          { "equals": { "method": "GET", "path": "/api/profile" } },
+          { "equals": { "headers": { "Authorization": "Bearer validtoken" } } }
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "is": {
+          "statusCode": 200,
+          "headers": { "Content-Type": "application/json" },
+          "body": { 
+            "username": "user1", 
+            "email": "user1@atec.pt", 
+            "role": "admin",
+            "last_login": "2026-03-27"
+          }
+        }
+      }
+    ]
+  }
+}
+
+###
+
+### EXERCÍCIO 13 - Perfil Falha 
+POST http://localhost:2525/imposters/4545/stubs
+Content-Type: application/json
+
+{
+  "stub": {
+    "predicates": [
+      { "equals": { "method": "GET", "path": "/api/profile" } }
+    ],
+    "responses": [
+      {
+        "is": {
+          "statusCode": 403,
+          "headers": { "Content-Type": "application/json" },
+          "body": { "error": "forbidden", "message": "Acesso negado. Token inválido ou ausente." }
+        }
+      }
+    ]
+  }
+}
+
+### Teste 13 - Acesso Autorizado (Deve dar 200 OK)
+GET http://localhost:4545/api/profile
+Authorization: Bearer validtoken
+
+###
+
+### Teste 13 - Acesso Negado (Deve dar 403 Forbidden)
+GET http://localhost:4545/api/profile
+Authorization: Bearer token_errado
