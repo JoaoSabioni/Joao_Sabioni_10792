@@ -1,0 +1,23 @@
+### Configurar o Imposter (API de Alunos)
+POST http://127.0.0.1:2525/imposters
+Content-Type: application/json
+
+{
+  "port": 3000,
+  "protocol": "http",
+  "name": "API_Gestao_Alunos",
+  "stubs": [
+    {
+      "responses": [{ "is": { "statusCode": 400, "body": { "error": "Idade mínima não atingida" } } }],
+      "predicates": [{ "equals": { "method": "POST", "path": "/api/alunos" } }, { "matches": { "body": { "idade": "^[0-9]$" } } }]
+    },
+    {
+      "responses": [{ "is": { "statusCode": 404, "body": { "error": "Curso não encontrado" } } }],
+      "predicates": [{ "equals": { "method": "POST", "path": "/api/alunos" } }, { "contains": { "body": { "curso": "Inexistente" } } }]
+    },
+    {
+      "responses": [{ "is": { "statusCode": 201, "body": { "message": "Aluno criado com sucesso" } } }],
+      "predicates": [{ "equals": { "method": "POST", "path": "/api/alunos" } }]
+    }
+  ]
+}

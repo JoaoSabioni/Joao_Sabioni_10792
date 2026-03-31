@@ -1,0 +1,50 @@
+@baseUrl = http://127.0.0.1:3000/api
+
+### TC01: Criar Aluno Válido
+# Esperado: 201 Created
+POST {{baseUrl}}/alunos
+Content-Type: application/json
+
+{
+    "nome": "joao Sabi",
+    "idade": 22,
+    "curso": "Informática"
+}
+
+###
+
+### TC02: Criar Aluno com Idade Inválida 
+# Esperado: 400 Bad Request 
+POST {{baseUrl}}/alunos
+Content-Type: application/json
+
+{
+    "nome": "Joãozinho",
+    "idade": 9,
+    "curso": "Informática"
+}
+
+###
+
+### TC03: Criar Aluno com Curso Inexistente 
+# Esperado: 404 Not Found 
+POST {{baseUrl}}/alunos
+Content-Type: application/json
+
+{
+    "nome": "Maria Santos",
+    "idade": 20,
+    "curso": "Inexistente"
+}
+
+###
+
+### TC04: Tentar eliminar aluno sem permissão 
+# Esperado: 403 Forbidden ou 401 Unauthorized
+DELETE {{baseUrl}}/alunos/1
+
+###
+
+### TC05: Listar todos os alunos  
+# Esperado: 200 OK
+GET {{baseUrl}}/alunos
